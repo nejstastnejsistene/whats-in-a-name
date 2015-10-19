@@ -16,7 +16,7 @@ main = do
       <$> map T.toTitle
       <$> filter (T.all isAsciiLower)
       <$> T.words
-      <$> T.readFile "/usr/share/dict/words"
+      <$> T.readFile "data/words.txt"
   runServer port dict
 
 runServer :: Int -> Vector T.Text -> IO ()
