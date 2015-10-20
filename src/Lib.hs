@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Lib (main) where
 
 import Control.Monad.IO.Class
@@ -21,7 +23,9 @@ main = do
 
 runServer :: Int -> Vector T.Text -> IO ()
 runServer port dict = runSpock port $ spockT id $ do
-  get root $ do text =<< liftIO (randName 2)
+  get root $ do
+    setHeader "Access-Control-Allow-Origin" "*"
+    text =<< liftIO (randName 2)
   where
     randName n = T.unwords <$> randWords n
     randWords n = sequence (replicate n randWord)
