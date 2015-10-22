@@ -3,8 +3,9 @@
 module Lib (main) where
 
 import Control.Monad.IO.Class
-import Control.Monad.Random (evalRandIO, RandomGen, Rand, getRandomR)
+import Control.Monad.Random (getRandomR)
 import Data.Char
+import Data.Maybe
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
 import Data.Vector (Vector, fromList, (!))
@@ -13,7 +14,9 @@ import Web.Spock
 
 main :: IO ()
 main = do
-  port <- read <$> getEnv "PORT"
+  port <- fromMaybe 3030
+      <$> fmap read
+      <$> lookupEnv "PORT"
   dict <- fromList
       <$> map T.toTitle
       <$> filter (T.all isAsciiLower)
