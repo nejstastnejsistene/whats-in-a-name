@@ -18,8 +18,8 @@ main = do
       <$> fmap read
       <$> lookupEnv "PORT"
   dict <- fromList
-      <$> map T.toTitle
-      <$> filter (T.all isAsciiLower)
+      <$> map (\x -> if T.all isLower x then T.toTitle x else x)
+      <$> filter (T.all isAlpha)
       <$> T.words
       <$> T.readFile "data/words.txt"
   runServer port dict
